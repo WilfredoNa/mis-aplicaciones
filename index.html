@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Mis Aplicaciones - Aplicaciones, proyectos y herramientas desarrolladas."
+    >
+
+    <title>Mis Aplicaciones</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+    <script
+        src="script.js"
+        defer
+    ></script>
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+         ENCABEZADO
+    ====================================================== -->
+
+    <header>
+
+        <div class="logo">
+            MIS APLICACIONES
+        </div>
+
+
+        <nav>
+
+            <a href="#inicio">
+                Inicio
+            </a>
+
+            <a href="#aplicaciones">
+                Aplicaciones
+            </a>
+
+            <a href="#sobre-mi">
+                Sobre mí
+            </a>
+
+            <a href="#tecnologias">
+                Tecnologías
+            </a>
+
+        </nav>
+
+    </header>
+
+
+
+    <!-- =====================================================
+         CONTENIDO PRINCIPAL
+    ====================================================== -->
+
+    <main>
+
+
+        <!-- =================================================
+             INICIO
+        ================================================== -->
+
+        <section
+            id="inicio"
+            class="presentacion"
+        >
+
+            <h1>
+                Bienvenido a mi página
+            </h1>
+
+
+            <p>
+                Aquí encontrarás mis aplicaciones,
+                proyectos y herramientas.
+            </p>
+
+
+            <button
+                type="button"
+                id="boton-ver-aplicaciones"
+            >
+                Ver aplicaciones
+            </button>
+
+        </section>
+
+
+
+        <!-- =================================================
+             APLICACIONES
+        ================================================== -->
+
+        <section
+            id="aplicaciones"
+            class="aplicaciones"
+        >
+
+            <h2>
+                Mis Aplicaciones
+            </h2>
+
+
+            <p class="descripcion">
+                Conoce las aplicaciones que he desarrollado.
+            </p>
+
+
+
+            <!-- =================================================
+                 BUSCADOR Y CATEGORÍAS
+            ================================================== -->
+
+            <div class="filtros-aplicaciones">
+
+
+                <div class="buscador">
+
+                    <span class="icono-busqueda">
+                        🔎
+                    </span>
+
+
+                    <input
+                        type="text"
+                        id="buscador-aplicaciones"
+                        placeholder="Buscar aplicación..."
+                        autocomplete="off"
+                    >
+
+                </div>
+
+
+
+                <div class="categorias">
+
+
+                    <button
+                        class="categoria activa"
+                        data-categoria="Todas"
+                        type="button"
+                    >
+                        Todas
+                    </button>
+
+
+                    <button
+                        class="categoria"
+                        data-categoria="Salud"
+                        type="button"
+                    >
+                        🏥 Salud
+                    </button>
+
+
+                    <button
+                        class="categoria"
+                        data-categoria="Derecho"
+                        type="button"
+                    >
+                        ⚖️ Derecho
+                    </button>
+
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 TARJETAS GENERADAS POR JAVASCRIPT
+            ================================================== -->
+
+            <div
+                class="contenedor-aplicaciones"
+                id="contenedor-aplicaciones"
+            >
+            </div>
+
+
+            <!-- Mensaje cuando no existen resultados -->
+
+            <p
+                id="sin-resultados"
+                class="sin-resultados"
+            >
+                No se encontraron aplicaciones.
+            </p>
+
+
+
+            <!-- =================================================
+                 PERSONALIZACIÓN
+            ================================================== -->
+
+            <div class="tarjeta-personalizacion">
+
+
+                <div class="icono-aplicacion">
+                    📦
+                </div>
+
+
+                <h3>
+                    Personaliza tu aplicación
+                </h3>
+
+
+                <p>
+                    Selecciona un archivo ZIP para preparar
+                    una versión personalizada de la aplicación.
+                </p>
+
+
+                <div class="subir-archivo">
+
+
+                    <label
+                        for="archivo-zip"
+                        class="label-archivo"
+                    >
+                        📁 Seleccionar archivo ZIP
+                    </label>
+
+
+                    <input
+                        type="file"
+                        id="archivo-zip"
+                        accept=".zip"
+                    >
+
+
+                    <p id="nombre-zip">
+                        Ningún archivo seleccionado
+                    </p>
+
+
+                </div>
+
+
+                <button
+                    type="button"
+                    id="boton-subir-zip"
+                    class="boton-comentario"
+                >
+                    📤 Enviar archivo
+                </button>
+
+
+                <p
+                    id="mensaje-archivo"
+                    class="mensaje-archivo"
+                >
+                </p>
+
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             SOBRE MÍ
+        ================================================== -->
+
+        <section
+            id="sobre-mi"
+            class="sobre-mi"
+        >
+
+            <div class="contenedor">
+
+                <h2>
+                    Sobre mí
+                </h2>
+
+
+                <h3>
+                    Wilfredo Núñez
+                </h3>
+
+
+                <p>
+                    Soy desarrollador de aplicaciones y herramientas
+                    informáticas orientadas a resolver problemas reales
+                    mediante la tecnología.
+                </p>
+
+
+                <p>
+                    Me interesa desarrollar soluciones utilizando
+                    Python, automatización, interfaces gráficas y
+                    tecnologías web.
+                </p>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             TECNOLOGÍAS
+        ================================================== -->
+
+        <section
+            id="tecnologias"
+            class="tecnologias"
+        >
+
+            <div class="contenedor">
+
+
+                <h2>
+                    Tecnologías
+                </h2>
+
+
+                <p class="subtitulo-tecnologias">
+                    Herramientas y tecnologías que utilizo
+                    en mis proyectos.
+                </p>
+
+
+
+                <div class="tecnologias-grid">
+
+
+                    <div class="tecnologia">
+
+                        <div class="icono-tecnologia">
+                            🐍
+                        </div>
+
+                        <h3>
+                            Python
+                        </h3>
+
+                        <p>
+                            Desarrollo de aplicaciones,
+                            automatización y procesamiento
+                            de información.
+                        </p>
+
+                    </div>
+
+
+
+                    <div class="tecnologia">
+
+                        <div class="icono-tecnologia">
+                            🌐
+                        </div>
+
+                        <h3>
+                            HTML
+                        </h3>
+
+                        <p>
+                            Estructura y organización
+                            de páginas web.
+                        </p>
+
+                    </div>
+
+
+
+                    <div class="tecnologia">
+
+                        <div class="icono-tecnologia">
+                            🎨
+                        </div>
+
+                        <h3>
+                            CSS
+                        </h3>
+
+                        <p>
+                            Diseño, estilos y presentación
+                            visual de páginas web.
+                        </p>
+
+                    </div>
+
+
+
+                    <div class="tecnologia">
+
+                        <div class="icono-tecnologia">
+                            ⚡
+                        </div>
+
+                        <h3>
+                            JavaScript
+                        </h3>
+
+                        <p>
+                            Interactividad y funcionamiento
+                            dinámico de las páginas web.
+                        </p>
+
+                    </div>
+
+
+
+                    <div class="tecnologia">
+
+                        <div class="icono-tecnologia">
+                            🖥️
+                        </div>
+
+                        <h3>
+                            Tkinter
+                        </h3>
+
+                        <p>
+                            Desarrollo de interfaces gráficas
+                            para aplicaciones Python.
+                        </p>
+
+                    </div>
+
+
+
+                    <div class="tecnologia">
+
+                        <div class="icono-tecnologia">
+                            📊
+                        </div>
+
+                        <h3>
+                            Excel
+                        </h3>
+
+                        <p>
+                            Gestión, almacenamiento y
+                            procesamiento de información.
+                        </p>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             MODAL - FICHA PROFESIONAL
+        ================================================== -->
+
+        <div
+            id="ventana-info"
+            class="modal"
+        >
+
+
+            <div class="modal-contenido">
+
+
+                <!-- Botón cerrar -->
+
+                <button
+                    id="cerrar-modal"
+                    class="cerrar"
+                    type="button"
+                    aria-label="Cerrar"
+                >
+                    ×
+                </button>
+
+
+
+                <!-- Icono -->
+
+                <div
+                    id="icono-info"
+                    class="icono-aplicacion"
+                >
+                </div>
+
+
+
+                <!-- Título -->
+
+                <h2 id="titulo-info">
+                    Nombre de la aplicación
+                </h2>
+
+
+
+                <!-- Imagen -->
+
+                <img
+                    id="imagen-info"
+                    class="imagen-aplicacion"
+                    src=""
+                    alt="Captura de la aplicación"
+                >
+
+
+
+                <!-- Descripción -->
+
+                <p id="texto-info">
+                </p>
+
+
+
+                <!-- Información técnica -->
+
+                <div class="informacion-tecnica">
+
+
+                    <p>
+
+                        <strong>
+                            Versión:
+                        </strong>
+
+                        <span id="version-info">
+                        </span>
+
+                    </p>
+
+
+                    <p>
+
+                        <strong>
+                            Plataforma:
+                        </strong>
+
+                        <span id="plataforma-info">
+                        </span>
+
+                    </p>
+
+
+                    <p>
+
+                        <strong>
+                            Desarrollado con:
+                        </strong>
+
+                        <span id="tecnologia-info">
+                        </span>
+
+                    </p>
+
+
+                    <p>
+
+                        <strong>
+                            Archivo:
+                        </strong>
+
+                        <span id="archivo-info">
+                        </span>
+
+                    </p>
+
+                </div>
+
+
+
+                <!-- Características -->
+
+                <div class="caracteristicas">
+
+                    <h3>
+                        Características
+                    </h3>
+
+
+                    <ul id="lista-caracteristicas">
+                    </ul>
+
+                </div>
+
+
+
+                <!-- Documentación -->
+
+                <div
+                    id="documentacion-info"
+                    class="documentacion"
+                >
+                </div>
+
+
+
+                <!-- Video -->
+
+                <div
+                    id="seccion-video"
+                    class="seccion-video"
+                >
+
+                    <h3>
+                        🎥 Video del procedimiento
+                    </h3>
+
+
+                    <div id="contenedor-video">
+                    </div>
+
+                </div>
+
+
+
+                <!-- Galería -->
+
+                <div
+                    id="galeria-info"
+                    class="galeria-info"
+                >
+
+                    <h3>
+                        Capturas de pantalla
+                    </h3>
+
+
+                    <div
+                        id="galeria-imagenes"
+                        class="galeria-imagenes"
+                    >
+                    </div>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     COMENTARIOS
+                ================================================== -->
+
+                <div
+                    id="seccion-comentarios"
+                    class="seccion-comentarios"
+                >
+
+                    <div class="titulo-comentarios">
+
+                        <h3>
+                            💬 Comentarios y valoración
+                        </h3>
+
+                        <p>
+                            Comparte tu opinión sobre esta aplicación.
+                        </p>
+
+                    </div>
+
+
+                    <form
+                        id="formulario-comentario"
+                        class="formulario-comentario"
+                    >
+
+
+                        <label for="nombre-comentario">
+                            Nombre
+                        </label>
+
+
+                        <input
+                            type="text"
+                            id="nombre-comentario"
+                            maxlength="50"
+                            placeholder="Tu nombre"
+                            required
+                        >
+
+
+
+                        <label>
+                            Valoración
+                        </label>
+
+
+                        <div
+                            id="estrellas-valoracion"
+                            class="estrellas-valoracion"
+                        >
+
+                            <button
+                                type="button"
+                                data-valor="1"
+                                aria-label="1 estrella"
+                            >
+                                ★
+                            </button>
+
+                            <button
+                                type="button"
+                                data-valor="2"
+                                aria-label="2 estrellas"
+                            >
+                                ★
+                            </button>
+
+                            <button
+                                type="button"
+                                data-valor="3"
+                                aria-label="3 estrellas"
+                            >
+                                ★
+                            </button>
+
+                            <button
+                                type="button"
+                                data-valor="4"
+                                aria-label="4 estrellas"
+                            >
+                                ★
+                            </button>
+
+                            <button
+                                type="button"
+                                data-valor="5"
+                                aria-label="5 estrellas"
+                            >
+                                ★
+                            </button>
+
+                        </div>
+
+
+
+                        <label for="texto-comentario">
+                            Comentario
+                        </label>
+
+
+                        <textarea
+                            id="texto-comentario"
+                            rows="4"
+                            maxlength="500"
+                            placeholder="Escribe tu comentario..."
+                            required
+                        ></textarea>
+
+
+
+                        <button
+                            type="submit"
+                            class="boton-comentario"
+                        >
+                            Publicar comentario
+                        </button>
+
+
+                    </form>
+
+
+
+                    <div class="lista-comentarios">
+
+                        <h4>
+                            Comentarios
+                        </h4>
+
+
+                        <div id="comentarios-lista">
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- Descargar -->
+
+                <button
+                    id="boton-descargar"
+                    class="boton-descargar"
+                    type="button"
+                >
+                    ⬇ Descargar
+                </button>
+
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             VISOR DE IMÁGENES
+        ================================================== -->
+
+        <div
+            id="visor-imagen"
+            class="visor-imagen"
+        >
+
+
+            <button
+                id="cerrar-visor"
+                class="cerrar-visor"
+                type="button"
+                aria-label="Cerrar visor"
+            >
+                ✕
+            </button>
+
+
+            <button
+                id="imagen-anterior"
+                class="flecha-visor"
+                type="button"
+                aria-label="Imagen anterior"
+            >
+                &#10094;
+            </button>
+
+
+            <img
+                id="imagen-grande"
+                class="imagen-grande"
+                src=""
+                alt="Captura de aplicación"
+            >
+
+
+            <button
+                id="imagen-siguiente"
+                class="flecha-visor"
+                type="button"
+                aria-label="Imagen siguiente"
+            >
+                &#10095;
+            </button>
+
+
+            <div
+                id="contador-imagen"
+                class="contador-imagen"
+            >
+                1 / 1
+            </div>
+
+
+        </div>
+
+
+    </main>
+
+
+
+    <!-- =====================================================
+         PIE DE PÁGINA
+    ====================================================== -->
+
+    <footer>
+
+        <p>
+            © 2026 Mis Aplicaciones
+        </p>
+
+    </footer>
+
+
+</body>
+
+</html>
