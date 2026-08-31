@@ -1,4 +1,49 @@
 /* =========================================================
+   CONFIGURACIÓN DE SUPABASE
+========================================================= */
+
+/*
+ * URL de tu proyecto Supabase
+ */
+const SUPABASE_URL =
+    "https://qqvwodojgfnnyrzbmxct.supabase.co";
+
+
+/*
+ * IMPORTANTE:
+ *
+ * Coloca aquí tu PUBLISHABLE KEY.
+ *
+ * Debe comenzar aproximadamente así:
+ *
+ * sb_publishable_...
+ *
+ * NO coloques aquí la Secret Key.
+ */
+const SUPABASE_PUBLISHABLE_KEY =
+    "sb_publishable_ExacqsFv3K7qz1hDV7Imaw_ajvJS8IY";
+
+
+/*
+ * Cliente Supabase
+ *
+ * Supabase se carga desde el CDN en index.html.
+ */
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_PUBLISHABLE_KEY
+    );
+
+
+/*
+ * Nombre del bucket creado en Supabase
+ */
+const BUCKET_PERSONALIZACIONES =
+    "personalizaciones";
+
+
+/* =========================================================
    DATOS DE LAS APLICACIONES
 ========================================================= */
 
@@ -989,6 +1034,10 @@ const mensajeArchivo =
     document.getElementById("mensaje-archivo");
 
 
+/* =========================================================
+   MOSTRAR ARCHIVO SELECCIONADO
+========================================================= */
+
 archivoZip.addEventListener(
     "change",
     function() {
@@ -1013,8 +1062,119 @@ archivoZip.addEventListener(
         nombreZip.textContent =
             `Archivo seleccionado: ${archivo.name}`;
 
+        mensajeArchivo.textContent =
+            "";
+
     }
 );
+
+
+/* =========================================================
+   SUBIR ZIP A SUPABASE
+========================================================= */
+
+async function subirArchivoSupabase(archivo) {
+
+    /*
+     * Comprobamos que Supabase esté disponible.
+     */
+
+    if (
+        !window.supabase ||
+        !supabaseClient
+    ) {
+
+        throw new Error(
+            "No se pudo conectar con el cliente de Supabase."
+        );
+
+    }
+
+
+    /*
+     * Generamos un nombre único.
+     *
+     * Ejemplo:
+     *
+     * 20260830_abc123_sistema.zip
+     *
+     * Esto evita que un archivo pueda sobrescribir
+     * accidentalmente otro archivo.
+     */
+
+    const fecha =
+        new Date()
+            .toISOString()
+            .replace(/[:.]/g, "-");
+
+
+    const identificador =
+        crypto.randomUUID
+            ? crypto.randomUUID()
+            : Math.random()
+                .toString(36)
+                .substring(2);
+
+
+    const nombreSeguro =
+        archivo.name
+            .replace(/[^a-zA-Z0-9._-]/g, "_");
+
+
+    const nombreArchivo =
+        `${fecha}_${identificador}_${nombreSeguro}`;
+
+
+    /*
+     * Subimos el archivo al bucket:
+     *
+     * personalizaciones
+     */
+
+    const resultado =
+        await supabaseClient
+            .storage
+            .from(BUCKET_PERSONALIZACIONES)
+            .upload(
+                nombreArchivo,
+                archivo,
+                {
+                    cacheControl: "3600",
+
+                    upsert: false,
+
+                    contentType:
+                        "application/zip"
+                }
+            );
+
+
+    if (resultado.error) {
+
+        throw resultado.error;
+
+    }
+
+
+    /*
+     * Devolvemos información útil
+     * sobre el archivo enviado.
+     */
+
+    return {
+
+        nombreOriginal:
+            archivo.name,
+
+        nombreGuardado:
+            nombreArchivo,
+
+        ruta:
+            resultado.data.path
+
+    };
+
+}
 
 
 /* =========================================================
@@ -1023,7 +1183,24 @@ archivoZip.addEventListener(
 
 botonSubirZip.addEventListener(
     "click",
-    function() {
+    async function() {
+
+        /*
+         * Evitamos varios envíos simultáneos.
+         */
+
+        if (
+            botonSubirZip.dataset.subiendo === "true"
+        ) {
+
+            return;
+
+        }
+
+
+        /*
+         * Comprobar que exista archivo.
+         */
 
         if (
             !archivoZip.files ||
@@ -1042,6 +1219,10 @@ botonSubirZip.addEventListener(
             archivoZip.files[0];
 
 
+        /*
+         * Comprobar extensión.
+         */
+
         if (
             !archivo.name
                 .toLowerCase()
@@ -1057,20 +1238,124 @@ botonSubirZip.addEventListener(
 
 
         /*
-         * IMPORTANTE:
+         * Comprobar tamaño.
          *
-         * GitHub Pages es un servicio estático.
-         *
-         * En esta Etapa 1 solamente
-         * comprobamos el archivo localmente.
-         *
-         * Posteriormente podemos conectar
-         * este botón con un servidor/backend.
+         * El plan Free de Supabase tiene actualmente
+         * un límite de 50 MB por archivo.
          */
+
+        const limite =
+            50 * 1024 * 1024;
+
+
+        if (
+            archivo.size > limite
+        ) {
+
+            mensajeArchivo.textContent =
+                "⚠️ El archivo supera el límite de 50 MB.";
+
+            return;
+
+        }
+
+
+        /*
+         * Estado de envío.
+         */
+
+        botonSubirZip.dataset.subiendo =
+            "true";
+
+
+        const textoOriginal =
+            botonSubirZip.textContent;
+
+
+        botonSubirZip.disabled =
+            true;
+
+
+        botonSubirZip.textContent =
+            "⏳ Enviando...";
 
 
         mensajeArchivo.textContent =
-            "✅ Archivo seleccionado correctamente. La función de envío al servidor se implementará posteriormente.";
+            "⏳ Subiendo archivo, espera un momento...";
+
+
+        try {
+
+            /*
+             * Enviar a Supabase.
+             */
+
+            const resultado =
+                await subirArchivoSupabase(
+                    archivo
+                );
+
+
+            /*
+             * Éxito.
+             */
+
+            mensajeArchivo.textContent =
+                "✅ Archivo enviado correctamente. Hemos recibido tu archivo ZIP.";
+
+
+            /*
+             * Mostrar nombre guardado en consola
+             * solamente para fines de comprobación.
+             */
+
+            console.log(
+                "Archivo enviado a Supabase:",
+                resultado
+            );
+
+
+            /*
+             * Limpiar selector.
+             */
+
+            archivoZip.value = "";
+
+
+            nombreZip.textContent =
+                "Ningún archivo seleccionado";
+
+
+        } catch (error) {
+
+            console.error(
+                "Error al subir archivo:",
+                error
+            );
+
+
+            /*
+             * Mensaje para el usuario.
+             */
+
+            mensajeArchivo.textContent =
+                "❌ No se pudo enviar el archivo. Inténtalo nuevamente.";
+
+
+        } finally {
+
+            botonSubirZip.dataset.subiendo =
+                "false";
+
+
+            botonSubirZip.disabled =
+                false;
+
+
+            botonSubirZip.textContent =
+                textoOriginal;
+
+        }
 
     }
 );
