@@ -209,76 +209,169 @@
 
 
 
-            <!-- =================================================
-                 PERSONALIZACIÓN
-            ================================================== -->
+<!-- =================================================
+     PERSONALIZACIÓN
+================================================== -->
 
-            <div class="tarjeta-personalizacion">
+<div class="tarjeta-personalizacion">
 
-
-                <div class="icono-aplicacion">
-                    📦
-                </div>
-
-
-                <h3>
-                    Personaliza tu aplicación
-                </h3>
+    <div class="icono-aplicacion">
+        📦
+    </div>
 
 
-                <p>
-                    Selecciona un archivo ZIP para preparar
-                    una versión personalizada de la aplicación.
-                </p>
+    <h3>
+        Personaliza tu aplicación
+    </h3>
 
 
-                <div class="subir-archivo">
+    <p>
+        Solicita una personalización de cualquiera de mis
+        aplicaciones. Completa los datos y adjunta tu archivo ZIP.
+    </p>
 
 
-                    <label
-                        for="archivo-zip"
-                        class="label-archivo"
-                    >
-                        📁 Seleccionar archivo ZIP
-                    </label>
+    <!-- =================================================
+         NOMBRE
+    ================================================== -->
+
+    <div class="campo-personalizacion">
+
+        <label for="nombre-personalizacion">
+            👤 Nombre
+        </label>
+
+        <input
+            type="text"
+            id="nombre-personalizacion"
+            placeholder="Escribe tu nombre"
+            autocomplete="name"
+        >
+
+    </div>
 
 
-                    <input
-                        type="file"
-                        id="archivo-zip"
-                        accept=".zip"
-                    >
+    <!-- =================================================
+         CORREO
+    ================================================== -->
+
+    <div class="campo-personalizacion">
+
+        <label for="correo-personalizacion">
+            📧 Correo electrónico
+        </label>
+
+        <input
+            type="email"
+            id="correo-personalizacion"
+            placeholder="ejemplo@correo.com"
+            autocomplete="email"
+        >
+
+    </div>
 
 
-                    <p id="nombre-zip">
-                        Ningún archivo seleccionado
-                    </p>
+    <!-- =================================================
+         APLICACIÓN
+    ================================================== -->
+
+    <div class="campo-personalizacion">
+
+        <label for="aplicacion-personalizacion">
+            💻 Aplicación
+        </label>
+
+        <select id="aplicacion-personalizacion">
+
+            <option value="">
+                Selecciona una aplicación
+            </option>
+
+            <option value="Sistema Clínico">
+                🏥 Sistema Clínico
+            </option>
+
+            <option value="Resumidor Jurídico">
+                ⚖️ Resumidor Jurídico
+            </option>
+
+        </select>
+
+    </div>
 
 
-                </div>
+    <!-- =================================================
+         DESCRIPCIÓN
+    ================================================== -->
+
+    <div class="campo-personalizacion">
+
+        <label for="descripcion-personalizacion">
+            📝 ¿Qué personalización necesitas?
+        </label>
+
+        <textarea
+            id="descripcion-personalizacion"
+            rows="5"
+            placeholder="Describe detalladamente qué cambios o personalización necesitas..."
+        ></textarea>
+
+    </div>
 
 
-                <button
-                    type="button"
-                    id="boton-subir-zip"
-                    class="boton-comentario"
-                >
-                    📤 Enviar archivo
-                </button>
+    <!-- =================================================
+         ARCHIVO ZIP
+    ================================================== -->
+
+    <div class="subir-archivo">
+
+        <label
+            for="archivo-zip"
+            class="label-archivo"
+        >
+            📁 Seleccionar archivo ZIP
+        </label>
 
 
-                <p
-                    id="mensaje-archivo"
-                    class="mensaje-archivo"
-                >
-                </p>
+        <input
+            type="file"
+            id="archivo-zip"
+            accept=".zip,application/zip,application/x-zip-compressed"
+        >
 
 
-            </div>
+        <p id="nombre-zip">
+            Ningún archivo seleccionado
+        </p>
 
-        </section>
+    </div>
 
 
+    <!-- =================================================
+         BOTÓN ENVIAR
+    ================================================== -->
+
+    <button
+        type="button"
+        id="boton-subir-zip"
+        class="boton-comentario"
+    >
+        📤 Enviar solicitud
+    </button>
+
+
+    <!-- =================================================
+         MENSAJE
+    ================================================== -->
+
+    <p
+        id="mensaje-archivo"
+        class="mensaje-archivo"
+    >
+    </p>
+
+
+</div>
 
         <!-- =================================================
              SOBRE MÍ
