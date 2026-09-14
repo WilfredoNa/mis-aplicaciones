@@ -1018,17 +1018,33 @@ categorias.forEach(
 
 
 /* =========================================================
-   ARCHIVO ZIP
+   ARCHIVO ZIP Y PERSONALIZACIÓN
 ========================================================= */
+
+const nombrePersonalizacion =
+    document.getElementById("nombre-personalizacion");
+
+const correoPersonalizacion =
+    document.getElementById("correo-personalizacion");
+
+const aplicacionPersonalizacion =
+    document.getElementById("aplicacion-personalizacion");
+
+const descripcionPersonalizacion =
+    document.getElementById("descripcion-personalizacion");
+
 
 const archivoZip =
     document.getElementById("archivo-zip");
 
+
 const nombreZip =
     document.getElementById("nombre-zip");
 
+
 const botonSubirZip =
     document.getElementById("boton-subir-zip");
+
 
 const mensajeArchivo =
     document.getElementById("mensaje-archivo");
@@ -1062,6 +1078,7 @@ archivoZip.addEventListener(
         nombreZip.textContent =
             `Archivo seleccionado: ${archivo.name}`;
 
+
         mensajeArchivo.textContent =
             "";
 
@@ -1092,14 +1109,7 @@ async function subirArchivoSupabase(archivo) {
 
 
     /*
-     * Generamos un nombre único.
-     *
-     * Ejemplo:
-     *
-     * 20260830_abc123_sistema.zip
-     *
-     * Esto evita que un archivo pueda sobrescribir
-     * accidentalmente otro archivo.
+     * Generamos un identificador único.
      */
 
     const fecha =
@@ -1116,19 +1126,25 @@ async function subirArchivoSupabase(archivo) {
                 .substring(2);
 
 
+    /*
+     * Limpiamos el nombre original.
+     */
+
     const nombreSeguro =
         archivo.name
             .replace(/[^a-zA-Z0-9._-]/g, "_");
 
+
+    /*
+     * Nombre final del archivo.
+     */
 
     const nombreArchivo =
         `${fecha}_${identificador}_${nombreSeguro}`;
 
 
     /*
-     * Subimos el archivo al bucket:
-     *
-     * personalizaciones
+     * Subimos el ZIP al bucket.
      */
 
     const resultado =
@@ -1157,8 +1173,8 @@ async function subirArchivoSupabase(archivo) {
 
 
     /*
-     * Devolvemos información útil
-     * sobre el archivo enviado.
+     * Devolvemos la información
+     * del archivo guardado.
      */
 
     return {
@@ -1178,7 +1194,91 @@ async function subirArchivoSupabase(archivo) {
 
 
 /* =========================================================
-   BOTÓN ENVIAR ZIP
+   REGISTRAR SOLICITUD EN SUPABASE
+========================================================= */
+
+async function registrarSolicitudSupabase(datos) {
+
+    /*
+     * Guardamos los datos del formulario
+     * en la tabla:
+     *
+     * solicitudes_personalizacion
+     */
+
+    const { error } =
+        await supabaseClient
+            .from("solicitudes_personalizacion")
+            .insert([
+
+                {
+
+                    nombre:
+                        datos.nombre,
+
+                    correo:
+                        datos.correo,
+
+                    aplicacion:
+                        datos.aplicacion,
+
+                    descripcion:
+                        datos.descripcion,
+
+                    archivo_zip:
+                        datos.archivoZip,
+
+                    estado:
+                        "pendiente"
+
+                }
+
+            ]);
+
+
+    /*
+     * Si Supabase devuelve un error,
+     * detenemos el proceso.
+     */
+
+    if (error) {
+
+        throw error;
+
+    }
+
+}
+
+
+/* =========================================================
+   LIMPIAR FORMULARIO DE PERSONALIZACIÓN
+========================================================= */
+
+function limpiarFormularioPersonalizacion() {
+
+    nombrePersonalizacion.value =
+        "";
+
+    correoPersonalizacion.value =
+        "";
+
+    aplicacionPersonalizacion.value =
+        "";
+
+    descripcionPersonalizacion.value =
+        "";
+
+    archivoZip.value =
+        "";
+
+    nombreZip.textContent =
+        "Ningún archivo seleccionado";
+
+}
+
+
+/* =========================================================
+   BOTÓN ENVIAR SOLICITUD
 ========================================================= */
 
 botonSubirZip.addEventListener(
@@ -1186,7 +1286,8 @@ botonSubirZip.addEventListener(
     async function() {
 
         /*
-         * Evitamos varios envíos simultáneos.
+         * Evitamos múltiples envíos
+         * al mismo tiempo.
          */
 
         if (
@@ -1198,9 +1299,101 @@ botonSubirZip.addEventListener(
         }
 
 
-        /*
-         * Comprobar que exista archivo.
-         */
+        /* =================================================
+           OBTENER DATOS DEL FORMULARIO
+        ================================================= */
+
+        const nombre =
+            nombrePersonalizacion.value.trim();
+
+
+        const correo =
+            correoPersonalizacion.value.trim();
+
+
+        const aplicacion =
+            aplicacionPersonalizacion.value.trim();
+
+
+        const descripcion =
+            descripcionPersonalizacion.value.trim();
+
+
+        /* =================================================
+           VALIDAR NOMBRE
+        ================================================= */
+
+        if (
+            nombre.length < 2 ||
+            nombre.length > 100
+        ) {
+
+            mensajeArchivo.textContent =
+                "⚠️ Escribe un nombre válido.";
+
+            nombrePersonalizacion.focus();
+
+            return;
+
+        }
+
+
+        /* =================================================
+           VALIDAR CORREO
+        ================================================= */
+
+        if (
+            !correoPersonalizacion.checkValidity()
+        ) {
+
+            mensajeArchivo.textContent =
+                "⚠️ Escribe un correo electrónico válido.";
+
+            correoPersonalizacion.focus();
+
+            return;
+
+        }
+
+
+        /* =================================================
+           VALIDAR APLICACIÓN
+        ================================================= */
+
+        if (!aplicacion) {
+
+            mensajeArchivo.textContent =
+                "⚠️ Selecciona una aplicación.";
+
+            aplicacionPersonalizacion.focus();
+
+            return;
+
+        }
+
+
+        /* =================================================
+           VALIDAR DESCRIPCIÓN
+        ================================================= */
+
+        if (
+            descripcion.length < 1 ||
+            descripcion.length > 2000
+        ) {
+
+            mensajeArchivo.textContent =
+                "⚠️ Describe la personalización que necesitas.";
+
+            descripcionPersonalizacion.focus();
+
+            return;
+
+        }
+
+
+        /* =================================================
+           COMPROBAR ARCHIVO
+        ================================================= */
 
         if (
             !archivoZip.files ||
@@ -1219,9 +1412,9 @@ botonSubirZip.addEventListener(
             archivoZip.files[0];
 
 
-        /*
-         * Comprobar extensión.
-         */
+        /* =================================================
+           COMPROBAR EXTENSIÓN
+        ================================================= */
 
         if (
             !archivo.name
@@ -1237,12 +1430,9 @@ botonSubirZip.addEventListener(
         }
 
 
-        /*
-         * Comprobar tamaño.
-         *
-         * El plan Free de Supabase tiene actualmente
-         * un límite de 50 MB por archivo.
-         */
+        /* =================================================
+           COMPROBAR TAMAÑO
+        ================================================= */
 
         const limite =
             50 * 1024 * 1024;
@@ -1260,9 +1450,9 @@ botonSubirZip.addEventListener(
         }
 
 
-        /*
-         * Estado de envío.
-         */
+        /* =================================================
+           ACTIVAR ESTADO DE ENVÍO
+        ================================================= */
 
         botonSubirZip.dataset.subiendo =
             "true";
@@ -1281,14 +1471,14 @@ botonSubirZip.addEventListener(
 
 
         mensajeArchivo.textContent =
-            "⏳ Subiendo archivo, espera un momento...";
+            "⏳ Subiendo archivo y registrando solicitud...";
 
 
         try {
 
-            /*
-             * Enviar a Supabase.
-             */
+            /* =================================================
+               1. SUBIR ZIP
+            ================================================= */
 
             const resultado =
                 await subirArchivoSupabase(
@@ -1296,53 +1486,72 @@ botonSubirZip.addEventListener(
                 );
 
 
-            /*
-             * Éxito.
-             */
-
-            mensajeArchivo.textContent =
-                "✅ Archivo enviado correctamente. Hemos recibido tu archivo ZIP.";
-
-
-            /*
-             * Mostrar nombre guardado en consola
-             * solamente para fines de comprobación.
-             */
-
             console.log(
                 "Archivo enviado a Supabase:",
                 resultado
             );
 
 
-            /*
-             * Limpiar selector.
-             */
+            /* =================================================
+               2. GUARDAR SOLICITUD EN LA BASE DE DATOS
+            ================================================= */
 
-            archivoZip.value = "";
+            await registrarSolicitudSupabase({
+
+                nombre:
+                    nombre,
+
+                correo:
+                    correo,
+
+                aplicacion:
+                    aplicacion,
+
+                descripcion:
+                    descripcion,
+
+                archivoZip:
+                    resultado.ruta
+
+            });
 
 
-            nombreZip.textContent =
-                "Ningún archivo seleccionado";
+            /* =================================================
+               3. MOSTRAR ÉXITO
+            ================================================= */
+
+            mensajeArchivo.textContent =
+                "✅ Solicitud enviada correctamente. Hemos recibido tus datos y tu archivo ZIP.";
+
+
+            /* =================================================
+               4. LIMPIAR FORMULARIO
+            ================================================= */
+
+            limpiarFormularioPersonalizacion();
 
 
         } catch (error) {
 
             console.error(
-                "Error al subir archivo:",
+                "Error al enviar solicitud:",
                 error
             );
 
 
             /*
-             * Mensaje para el usuario.
+             * Mostramos un mensaje general
+             * al usuario.
              */
 
             mensajeArchivo.textContent =
-                "❌ No se pudo enviar el archivo. Inténtalo nuevamente.";
-
+                "❌ No se pudo enviar la solicitud. Inténtalo nuevamente.";
 
         } finally {
+
+            /*
+             * Restauramos el botón.
+             */
 
             botonSubirZip.dataset.subiendo =
                 "false";
@@ -1359,8 +1568,6 @@ botonSubirZip.addEventListener(
 
     }
 );
-
-
 /* =========================================================
    COMENTARIOS
 ========================================================= */
